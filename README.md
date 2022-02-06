@@ -8,6 +8,7 @@ React bindings for [atomic-router](https://github.com/kelin2025/atomic-router)
 
 ```bash
 npm i atomic-router atomic-router-react
+
 # Don't forget about peer dependencies
 npm i effector effector-react react
 ```
