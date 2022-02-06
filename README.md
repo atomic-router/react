@@ -1,4 +1,4 @@
-# Effector-router-react
+# Atomic-router-react
 
 React bindings for [atomic-router](https://github.com/kelin2025/atomic-router)
 
