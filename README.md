@@ -6,10 +6,15 @@ React bindings for [atomic-router](https://github.com/kelin2025/atomic-router)
 
 ## Installation
 
+Install core and react bindings:
+
 ```bash
 npm i atomic-router atomic-router-react
+```
 
-# Don't forget about peer dependencies
+Don't forget about peer dependencies, if you haven't installed them yet:
+
+```bash
 npm i effector effector-react react
 ```
 
