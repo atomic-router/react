@@ -1,7 +1,8 @@
 {
-  "version": "0.4.3",
+  "version": "0.5.0-dev.1",
   "license": "MIT",
   "main": "dist/index.js",
+  "module": "dist/esm/index.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist",
@@ -11,30 +12,29 @@
     "node": ">=10"
   },
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test",
-    "lint": "tsdx lint",
-    "prepare": "tsdx build"
+    "start": "tsup src/index.ts --watch",
+    "test": "jest -i",
+    "test:watch": "jest --watch -i",
+    "build": "npm run test && tsup src/index.ts --minify --dts --format esm,cjs --legacy-output",
+    "prepare": "npm run build"
   },
   "peerDependencies": {
     "atomic-router": "^0.4.0",
     "effector": "^22",
     "effector-react": "^22",
-    "react": "^17.0.2"
+    "react": "^17 || ^18"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.16.7",
-    "@types/react": "^17.0.38",
-    "effector": "^22.1.2",
-    "tsdx": "^0.14.1",
-    "tslib": "^2.3.1",
-    "typescript": "^4.5.4"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint"
-    }
+    "@types/jest": "^27.5.0",
+    "@types/react": "^17 || ^18",
+    "effector": "^22",
+    "jest": "^28.1.0",
+    "jest-environment-jsdom": "^28.1.0",
+    "ts-jest": "^28.0.1",
+    "tslib": "^2.4.0",
+    "tsup": "^5.12.7",
+    "typescript": "^4.6.3"
   },
   "prettier": {
     "printWidth": 80,
@@ -48,7 +48,6 @@
     "type": "git",
     "url": "https://github.com/kelin2025/atomic-router-react"
   },
-  "module": "dist/atomic-router-react.esm.js",
   "dependencies": {
     "clsx": "^1.1.1"
   }
