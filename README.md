@@ -78,3 +78,21 @@ import { Route } from 'atomic-router-react'
 
 <Route route={homeRoute} view={HomePage} />
 ```
+
+### `useLink` — resolve path from route
+
+```tsx
+import { useLink } from 'atomic-router-react'
+import { createRoute } from 'atomic-router'
+
+// example path: /some/route/:someId
+const someRoute = createRoute<{ someId: number }>()
+
+function SomeComponent() {
+  const path = useLink(someRoute, { someId: 1 })
+  // -> /some/route/1
+}
+```
+
+Be sure, route is passed into `routes` for `createHistoryRoutes`.
+Else hook will throw `[useLink] Route not found`.
