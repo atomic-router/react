@@ -1,22 +1,30 @@
 {
-  "version": "0.6.0",
+  "name": "atomic-router-react",
+  "version": "0.0.0-this-version-will-be-set-from-ci",
+  "author": "Anton Kosykh",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/atomic-router/react"
+  },
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/esm/index.js",
-  "typings": "dist/index.d.ts",
+  "main": "dist/atomic-router.cjs.js",
+  "module": "dist/atomic-router.esm.js",
+  "unpkg": "dist/atomic-router.umd.js",
+  "types": "dist/atomic-router.d.ts",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "engines": {
     "node": ">=10"
   },
   "scripts": {
-    "start": "tsup src/index.tsx --watch",
     "test": "jest -i",
     "test:watch": "jest --watch -i",
-    "build": "npm run test && tsup src/index.tsx --minify --dts --format esm,cjs --legacy-output",
+    "build": "rollup -c",
     "prepare": "npm run build"
+  },
+  "dependencies": {
+    "clsx": "^1.1.1"
   },
   "peerDependencies": {
     "atomic-router": "^0.6.0",
@@ -25,7 +33,18 @@
     "react": "^17 || ^18"
   },
   "devDependencies": {
-    "@babel/preset-react": "^7.16.7",
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.18.10",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
+    "@babel/plugin-proposal-object-rest-spread": "^7.18.9",
+    "@babel/plugin-proposal-optional-chaining": "^7.18.9",
+    "@babel/preset-env": "^7.18.10",
+    "@babel/preset-react": "^7.18.6",
+    "@babel/preset-typescript": "^7.18.6",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-node-resolve": "^13.3.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@types/jest": "^28.1.6",
@@ -33,24 +52,11 @@
     "effector": "^22",
     "jest": "^28.1.0",
     "jest-environment-jsdom": "^28.1.3",
+    "rollup": "^2.77.2",
+    "rollup-plugin-dts": "^4.2.2",
+    "rollup-plugin-terser": "^7.0.2",
     "ts-jest": "^28.0.1",
     "tslib": "^2.4.0",
-    "tsup": "^6.2.0",
     "typescript": "^4.6.3"
-  },
-  "prettier": {
-    "printWidth": 80,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5"
-  },
-  "name": "atomic-router-react",
-  "author": "Anton Kosykh",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/kelin2025/atomic-router-react"
-  },
-  "dependencies": {
-    "clsx": "^1.1.1"
   }
 }
