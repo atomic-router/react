@@ -15,13 +15,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
-          cache: 'npm'
+          cache: 'yarn'
 
       - name: Install dependencies
-        run: npm install
+        run: yarn install --frozen-lockfile
 
       - name: Build package
-        run: npm run build
+        run: yarn build
 
       - name: Extract version from release
         id: version
