@@ -1,14 +1,9 @@
-import React, { AnchorHTMLAttributes } from 'react';
-import clsx from 'clsx';
-import { useStore } from 'effector-react';
-import {
-  buildPath,
-  RouteParams,
-  RouteQuery,
-  RouteInstance,
-} from 'atomic-router';
+import React, { AnchorHTMLAttributes } from "react";
+import clsx from "clsx";
+import { useUnit } from "effector-react";
+import { buildPath, RouteInstance, RouteParams, RouteQuery } from "atomic-router";
 
-import { useRouter } from './router-provider';
+import { useRouter } from "./router-provider";
 
 type Props<Params extends RouteParams> = {
   to: RouteInstance<Params> | string;
@@ -17,18 +12,18 @@ type Props<Params extends RouteParams> = {
   className?: string;
   activeClassName?: string;
   inactiveClassName?: string;
-} & Exclude<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>;
+} & Exclude<AnchorHTMLAttributes<HTMLAnchorElement>, "href">;
 
 export function Link<Params extends RouteParams>({
   to,
   params,
   query,
   className,
-  activeClassName = 'active',
+  activeClassName = "active",
   inactiveClassName,
   ...props
 }: Props<Params>) {
-  if (typeof to === 'string') {
+  if (typeof to === "string") {
     return <NormalLink href={to} className={className} {...props} />;
   }
   return (
@@ -39,7 +34,7 @@ export function Link<Params extends RouteParams>({
         query,
         className,
         activeClassName,
-        inactiveClassName: inactiveClassName,
+        inactiveClassName,
       }}
       {...props}
     />
@@ -58,7 +53,7 @@ function RouteLink<Params extends RouteParams>({
   params,
   query,
   className,
-  activeClassName = 'active',
+  activeClassName = "active",
   inactiveClassName,
   onClick,
   ...props
@@ -74,10 +69,10 @@ function RouteLink<Params extends RouteParams>({
   const routeObj = router.routes.find((routeObj) => routeObj.route === to);
 
   if (!routeObj) {
-    throw new Error('[RouteLink] Route not found');
+    throw new Error("[RouteLink] Route not found");
   }
 
-  const isOpened = useStore(routeObj.route.$isOpened);
+  const [isOpened, navigate] = useUnit([routeObj.route.$isOpened, to.navigate]);
 
   const href = buildPath({
     pathCreator: routeObj.path,
@@ -88,13 +83,10 @@ function RouteLink<Params extends RouteParams>({
   return (
     <a
       href={href}
-      className={clsx(
-        className,
-        isOpened ? activeClassName : inactiveClassName
-      )}
+      className={clsx(className, isOpened ? activeClassName : inactiveClassName)}
       onClick={(evt) => {
         evt.preventDefault();
-        to.navigate({
+        navigate({
           params: params || ({} as Params),
           query: query || {},
         });
