@@ -71,17 +71,6 @@ function createConfigs({ scope }) {
         // createTerser({ inline: true }),
       ],
     },
-    {
-      input,
-      external,
-      output: [
-        {
-          file: pkg.types,
-          format: "es",
-        },
-      ],
-      plugins: [resolverPlugin, dts()],
-    },
   ];
 }
 
@@ -111,4 +100,15 @@ export default [
   },
   ...createConfigs({ scope: false }),
   ...createConfigs({ scope: true }),
+  {
+    input,
+    external,
+    output: [
+      {
+        file: pkg.types,
+        format: "es",
+      },
+    ],
+    plugins: [resolverPlugin, dts()],
+  },
 ];
