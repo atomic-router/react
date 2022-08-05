@@ -1,16 +1,14 @@
-import { combine } from 'effector';
-import { useStore } from 'effector-react';
-import React, { FC } from 'react';
-import { RouteInstance } from 'atomic-router';
-import { createRouteView } from './create-route-view';
+import { combine } from "effector";
+import { useUnit } from "effector-react";
+import React, { FC } from "react";
+import { RouteInstance } from "atomic-router";
+import { createRouteView } from "./create-route-view";
 
 export const createRoutesView = (config: {
   routes: { route: RouteInstance<any> | RouteInstance<any>[]; view: FC<any> }[];
   notFound?: FC<any>;
 }) => {
-  const views = config.routes.map(({ route, view }) =>
-    createRouteView(route, view)
-  );
+  const views = config.routes.map(({ route, view }) => createRouteView(route, view));
   const $isSomeOpened = combine(
     ...config.routes
       .map(({ route }) => route)
@@ -23,7 +21,7 @@ export const createRoutesView = (config: {
   const NotFound = config.notFound;
 
   return () => {
-    const isSomeOpened = useStore($isSomeOpened);
+    const isSomeOpened = useUnit($isSomeOpened);
 
     if (!isSomeOpened && NotFound) {
       return <NotFound />;

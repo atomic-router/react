@@ -1,21 +1,34 @@
-import babel from '@rollup/plugin-babel';
-import commonjs from '@rollup/plugin-commonjs';
-import dts from 'rollup-plugin-dts';
-import resolve from '@rollup/plugin-node-resolve';
-import { terser } from 'rollup-plugin-terser';
+import babel from "@rollup/plugin-babel";
+import commonjs from "@rollup/plugin-commonjs";
+import dts from "rollup-plugin-dts";
+import resolve from "@rollup/plugin-node-resolve";
+import { terser } from "rollup-plugin-terser";
 
-import pkg from './package.json';
-import { minifyConfig } from './build/minifications';
+import pkg from "./package.json";
+import { minifyConfig } from "./build/minifications";
 
-const extensions = ['.ts', '.tsx', '.js'];
+const extensions = [".ts", ".tsx", ".js"];
 
 const resolverPlugin = resolve({ extensions });
 
 const babelPlugin = babel({
-  babelHelpers: 'bundled',
+  babelHelpers: "bundled",
   sourceMaps: true,
   extensions,
   exclude: /node_modules.*/,
+});
+
+const babelPluginScope = babel({
+  babelHelpers: "bundled",
+  sourceMaps: true,
+  extensions,
+  exclude: /node_modules.*/,
+  overrides: [
+    {
+      test: () => true,
+      plugins: [["effector/babel-plugin", { reactSsr: true, noDefaults: true }, "scoped"]],
+    },
+  ],
 });
 
 const createTerser = ({ inline }) =>
@@ -26,67 +39,76 @@ const createTerser = ({ inline }) =>
     })
   );
 
-const input = 'src/index.tsx';
+const input = "src/index.tsx";
 const external = [
   ...Object.keys(pkg.devDependencies),
   ...Object.keys(pkg.peerDependencies),
+  "effector-react/scope",
+  "react/jsx-runtime",
 ];
+
+function createConfigs({ scope }) {
+  return [
+    {
+      input,
+      external,
+      output: [
+        {
+          file: scope ? pkg.exports["./scope"].require : pkg.exports["."].require,
+          format: "cjs",
+          sourcemap: true,
+        },
+        {
+          file: scope ? pkg.exports["./scope"].import : pkg.exports["."].import,
+          format: "es",
+          sourcemap: true,
+        },
+      ],
+      plugins: [
+        scope ? babelPluginScope : babelPlugin,
+        resolverPlugin,
+        commonjs(),
+        // createTerser({ inline: true }),
+      ],
+    },
+    {
+      input,
+      external,
+      output: [
+        {
+          file: pkg.types,
+          format: "es",
+        },
+      ],
+      plugins: [resolverPlugin, dts()],
+    },
+  ];
+}
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
   {
     input,
-    external: ['effector', 'atomic-router', 'effector-react', 'react'],
+    external: ["effector", "atomic-router", "effector-react", "react"],
     output: {
-      name: 'atomicRouter',
+      name: "atomicRouter",
       file: pkg.unpkg,
-      format: 'umd',
+      format: "umd",
       sourcemap: true,
       globals: {
-        effector: 'effector',
-        'effector-react': 'effectorReact',
-        'atomic-router': 'atomicRouter',
-        react: 'React',
+        effector: "effector",
+        "effector-react": "effectorReact",
+        "atomic-router": "atomicRouter",
+        react: "React",
       },
     },
     plugins: [
       babelPlugin,
       resolverPlugin,
       commonjs(),
-      createTerser({ inline: false }),
+      // createTerser({ inline: false }),
     ],
   },
-  {
-    input,
-    external,
-    output: [
-      {
-        file: pkg.main,
-        format: 'cjs',
-        sourcemap: true,
-      },
-      {
-        file: pkg.module,
-        format: 'es',
-        sourcemap: true,
-      },
-    ],
-    plugins: [
-      babelPlugin,
-      resolverPlugin,
-      commonjs(),
-      createTerser({ inline: true }),
-    ],
-  },
-  {
-    input,
-    external,
-    output: [
-      {
-        file: pkg.types,
-        format: 'es',
-      },
-    ],
-    plugins: [resolverPlugin, dts()],
-  },
+  ...createConfigs({ scope: false }),
+  ...createConfigs({ scope: true }),
 ];
