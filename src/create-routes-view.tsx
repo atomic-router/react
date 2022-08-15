@@ -1,37 +1,40 @@
-import { combine } from "effector";
-import { useUnit } from "effector-react";
 import React, { FC } from "react";
 import { RouteInstance } from "atomic-router";
-import { createRouteView } from "./create-route-view";
 
-export const createRoutesView = (config: {
-  routes: { route: RouteInstance<any> | RouteInstance<any>[]; view: FC<any> }[];
-  notFound?: FC<any>;
-}) => {
-  const views = config.routes.map(({ route, view }) => createRouteView(route, view));
-  const $isSomeOpened = combine(
-    ...config.routes
-      .map(({ route }) => route)
-      .flat()
-      .map((route) => route.$isOpened),
-    // @ts-expect-error
-    (...isOpened) => isOpened.some(Boolean)
-  );
+import { useIsOpened } from "./use-is-opened";
 
-  const NotFound = config.notFound;
+type RouteRecord<Props, Params> = {
+  route: RouteInstance<Params> | RouteInstance<Params>[];
+  view: FC<Props>;
+};
 
-  return () => {
-    const isSomeOpened = useUnit($isSomeOpened);
+export type RoutesViewConfig = {
+  routes: RouteRecord<unknown, unknown>[];
+  otherwise?: React.FC<unknown>;
+};
 
-    if (!isSomeOpened && NotFound) {
-      return <NotFound />;
+export const createRoutesView = <Config extends RoutesViewConfig>(config: Config) => {
+  return (props: Omit<Config, keyof Config>) => {
+    const mergedConfig = { ...config, ...props };
+    const routes = mergedConfig.routes.map((routeRecord) => {
+      const isOpened = useIsOpened(routeRecord.route);
+      return { ...routeRecord, isOpened };
+    });
+
+    for (const route of routes) {
+      if (route.isOpened) {
+        const View = route.view;
+
+        return <View />;
+      }
     }
-    return (
-      <>
-        {views.map((View, idx) => (
-          <View key={idx} />
-        ))}
-      </>
-    );
+
+    if (mergedConfig.otherwise) {
+      const Otherwise = mergedConfig.otherwise;
+
+      return <Otherwise />;
+    }
+
+    return null;
   };
 };
