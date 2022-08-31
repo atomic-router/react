@@ -9,8 +9,8 @@ type RouteRecord<Props, Params> = {
 };
 
 export type RoutesViewConfig = {
-  routes: RouteRecord<unknown, unknown>[];
-  otherwise?: React.FC<unknown>;
+  routes: RouteRecord<any, any>[];
+  otherwise?: React.FC<any>;
 };
 
 export const createRoutesView = <Config extends RoutesViewConfig>(config: Config) => {
