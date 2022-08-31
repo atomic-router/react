@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
-import { useStoreMap } from 'effector-react';
 import { RouteInstance, RouteParams } from 'atomic-router';
 
-import { useRouter } from './router-provider';
+import { useIsOpened } from './use-is-opened';
 
 type Props<Params extends RouteParams> = {
   route: RouteInstance<Params> | RouteInstance<Params>[];
@@ -10,17 +9,7 @@ type Props<Params extends RouteParams> = {
 };
 
 export function Route<Params>({ route, view: Component }: Props<Params>) {
-  const router = useRouter();
-  /* eslint-disable */
-  const isOpened = useStoreMap({
-    store: router.$activeRoutes,
-    keys: [route],
-    fn: (activeRoutes, [route]) => {
-      return Array.isArray(route)
-        ? route.some(route => activeRoutes.includes(route))
-        : activeRoutes.includes(route);
-    },
-  });
+  const isOpened = useIsOpened(route);
 
   if (isOpened) {
     return <Component />;

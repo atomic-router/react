@@ -1,25 +1,39 @@
 import React from "react";
-import { combine } from "effector";
-import { useUnit } from "effector-react";
 import { RouteInstance } from "atomic-router";
 
-export const createRouteView = <Props,>(
-  route: RouteInstance<any> | RouteInstance<any>[],
-  View: React.FC<Props>
-) => {
-  const $isOpened = Array.isArray(route)
-    ? combine(combine(route.map((r) => r.$isOpened)), (isOpened) => isOpened.includes(true))
-    : route.$isOpened;
+import { useIsOpened } from "./use-is-opened";
 
-  function RouteView(props: Props) {
-    const isOpened = useUnit($isOpened);
+export type RouteViewConfig<Props, Params> = {
+  route: RouteInstance<Params> | RouteInstance<Params>[];
+  view: React.FC<Props>;
+  otherwise?: React.FC<Props>;
+};
+
+export const createRouteView = <
+  Props,
+  Params,
+  Config extends {
+    [key in keyof RouteViewConfig<Props, Params>]?: RouteViewConfig<Props, Params>[key];
+  }
+>(
+  config: Config
+) => {
+  return (props: Props & Omit<RouteViewConfig<Props, Params>, keyof Config>) => {
+    const mergedConfig = { ...config, ...props } as RouteViewConfig<Props, Params>;
+    const isOpened = useIsOpened(mergedConfig.route);
 
     if (isOpened) {
+      const View = mergedConfig.view;
+
       return <View {...props} />;
     }
 
-    return null;
-  }
+    if (mergedConfig.otherwise) {
+      const Otherwise = mergedConfig.otherwise;
 
-  return RouteView;
+      return <Otherwise {...props} />;
+    }
+
+    return null;
+  };
 };
