@@ -20,7 +20,9 @@ npm i effector effector-react react
 
 ## Usage
 
-### `RouterProvider` - provides router instance
+### Component API
+
+#### `RouterProvider` - provides router instance
 
 Wrap your app into this:
 
@@ -41,7 +43,7 @@ const App = () => {
 };
 ```
 
-### `Link` - render a link
+#### `Link` - render a link
 
 Simple usage:
 
@@ -71,49 +73,19 @@ import { Link } from "atomic-router-react";
 />;
 ```
 
-### `createRoutesView` - render routes
+#### `Route` - render route
 
 ```tsx
-import { createRouteView, RouterProvider } from "atomic-router-react";
+import { Route } from "atomic-router-react";
 
-// { route: RouteInstance<...>, view: FC<...> }
-import * as Home from "@/pages/home";
-import * as Post from "@/pages/post";
-
-import { router } from "@/app/routing";
-
-const RoutesView = createRoutesView({
-  routes: [
-    { route: Home.route, view: Home.Page },
-    { route: Post.route, view: Post.Page },
-  ],
-  otherwise: () => {
-    return <div>Page not found!</div>;
-  },
-});
-
-const App = () => {
-  return (
-    <RouterProvider router={router}>
-      <RoutesView />
-    </RouterProvider>
-  );
-};
+<Route route={homeRoute} view={HomePage} />;
 ```
 
-You can also set only a part of `createRoutesView` config on create and pass the rest of it via props:
+### Declarative API
 
-```tsx
-// Set specific otherwise view
-const RoutesView = createRoutesView({
-  otherwise: SpecificNotFound,
-});
 
-// Pass the routes as a prop
-<RoutesView routes={routes} />;
-```
 
-### `createRouteView` - render view if route is opened
+#### `createRouteView` - render view if route is opened
 
 ```tsx
 import { createRoute } from "atomic-router";
@@ -144,12 +116,46 @@ const PostsList = createRouteView({
 });
 ```
 
-Like in `createRoutesView`, you can set only a part of `createRouteView` config on create and pass the rest of it via props.
+You can also set only a part of `createRouteView` config on create and pass the rest of it via props.
 
-### `Route` - render route
+#### `createRoutesView` - render routes
 
 ```tsx
-import { Route } from "atomic-router-react";
+import { createRouteView, RouterProvider } from "atomic-router-react";
 
-<Route route={homeRoute} view={HomePage} />;
+// { route: RouteInstance<...>, view: FC<...> }
+import * as Home from "@/pages/home";
+import * as Post from "@/pages/post";
+
+import { router } from "@/app/routing";
+
+const RoutesView = createRoutesView({
+  routes: [
+    { route: Home.route, view: Home.Page },
+    { route: Post.route, view: Post.Page },
+  ],
+  otherwise: () => {
+    return <div>Page not found!</div>;
+  },
+});
+
+const App = () => {
+  return (
+    <RouterProvider router={router}>
+      <RoutesView />
+    </RouterProvider>
+  );
+};
+```
+
+Like in `createRouteView`, you can set only a part of `createRoutesView` config on create and pass the rest of it via props:
+
+```tsx
+// Set specific otherwise view
+const RoutesView = createRoutesView({
+  otherwise: SpecificNotFound,
+});
+
+// Pass the routes as a prop
+<RoutesView routes={routes} />;
 ```
