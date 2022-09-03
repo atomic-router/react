@@ -1,6 +1,6 @@
 import React, { AnchorHTMLAttributes } from "react";
 import clsx from "clsx";
-import { useUnit } from "effector-react";
+import { useEvent, useStore } from "effector-react";
 import { buildPath, RouteInstance, RouteParams, RouteQuery } from "atomic-router";
 
 import { useRouter } from "./router-provider";
@@ -71,8 +71,8 @@ function RouteLink<Params extends RouteParams>({
   if (!routeObj) {
     throw new Error("[RouteLink] Route not found");
   }
-
-  const [isOpened, navigate] = useUnit([routeObj.route.$isOpened, to.navigate]);
+  const isOpened = useStore(routeObj.route.$isOpened);
+  const navigate = useEvent(to.navigate);
 
   const href = buildPath({
     pathCreator: routeObj.path,
