@@ -1,10 +1,8 @@
-import { useUnit } from 'effector-react';
-import { RouteInstance } from 'atomic-router';
+import { useStore } from "effector-react";
+import { RouteInstance } from "atomic-router";
 
-export const useIsOpened = (
-  route: RouteInstance<any> | RouteInstance<any>[]
-) => {
+export const useIsOpened = (route: RouteInstance<any> | RouteInstance<any>[]) => {
   return Array.isArray(route)
-    ? useUnit(route.map((route) => route.$isOpened)).some(Boolean)
-    : useUnit(route.$isOpened);
+    ? route.map((route) => useStore(route.$isOpened)).some(Boolean)
+    : useStore(route.$isOpened);
 };
