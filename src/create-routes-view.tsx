@@ -1,16 +1,16 @@
-import React, { FC } from "react";
+import React from "react";
 import { RouteInstance } from "atomic-router";
 
 import { useIsOpened } from "./use-is-opened";
 
 type RouteRecord<Props, Params> = {
   route: RouteInstance<Params> | RouteInstance<Params>[];
-  view: FC<Props>;
+  view: React.ComponentType<Props>;
 };
 
 export type RoutesViewConfig = {
   routes: RouteRecord<any, any>[];
-  otherwise?: React.FC<any>;
+  otherwise?: React.ComponentType<any>;
 };
 
 export const createRoutesView = <Config extends RoutesViewConfig>(config: Config) => {

@@ -5,8 +5,8 @@ import { useIsOpened } from "./use-is-opened";
 
 export type RouteViewConfig<Props, Params> = {
   route: RouteInstance<Params> | RouteInstance<Params>[];
-  view: React.FC<Props>;
-  otherwise?: React.FC<Props>;
+  view: React.ComponentType<Props>;
+  otherwise?: React.ComponentType<Props>;
 };
 
 export const createRouteView = <

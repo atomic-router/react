@@ -1,11 +1,11 @@
-import React, { FC } from 'react';
-import { RouteInstance, RouteParams } from 'atomic-router';
+import React from "react";
+import { RouteInstance, RouteParams } from "atomic-router";
 
-import { useIsOpened } from './use-is-opened';
+import { useIsOpened } from "./use-is-opened";
 
 type Props<Params extends RouteParams> = {
   route: RouteInstance<Params> | RouteInstance<Params>[];
-  view: FC;
+  view: React.ComponentType;
 };
 
 export function Route<Params>({ route, view: Component }: Props<Params>) {
