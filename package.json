@@ -45,7 +45,7 @@
     "clsx": "^1.1.1"
   },
   "peerDependencies": {
-    "atomic-router": "^0.6.0",
+    "atomic-router": "^0.7.0",
     "effector": "^22",
     "effector-react": "^22",
     "react": "^17 || ^18"
