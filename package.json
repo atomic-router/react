@@ -84,5 +84,6 @@
     "ts-jest": "^28.0.1",
     "tslib": "^2.4.0",
     "typescript": "^4.6.3"
-  }
+  },
+  "packageManager": "pnpm@7.9.3"
 }

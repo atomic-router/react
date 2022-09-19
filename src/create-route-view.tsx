@@ -1,23 +1,21 @@
 import React from "react";
-import { RouteInstance } from "atomic-router";
+import { RouteInstance, RouteParams } from "atomic-router";
 
 import { useIsOpened } from "./use-is-opened";
 
-export type RouteViewConfig<Props, Params> = {
+export interface RouteViewConfig<Props, Params extends RouteParams> {
   route: RouteInstance<Params> | RouteInstance<Params>[];
   view: React.ComponentType<Props>;
   otherwise?: React.ComponentType<Props>;
-};
+}
 
-export const createRouteView = <
+export function createRouteView<
   Props,
-  Params,
+  Params extends RouteParams,
   Config extends {
     [key in keyof RouteViewConfig<Props, Params>]?: RouteViewConfig<Props, Params>[key];
   }
->(
-  config: Config
-) => {
+>(config: Config) {
   return (props: Props & Omit<RouteViewConfig<Props, Params>, keyof Config>) => {
     const mergedConfig = { ...config, ...props } as RouteViewConfig<Props, Params>;
     const isOpened = useIsOpened(mergedConfig.route);
@@ -36,4 +34,4 @@ export const createRouteView = <
 
     return null;
   };
-};
+}

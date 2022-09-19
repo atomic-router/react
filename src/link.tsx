@@ -5,14 +5,15 @@ import { buildPath, RouteInstance, RouteParams, RouteQuery } from "atomic-router
 
 import { useRouter } from "./router-provider";
 
-type Props<Params extends RouteParams> = {
+interface Props<Params extends RouteParams>
+  extends Exclude<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> {
   to: RouteInstance<Params> | string;
   params?: Params;
   query?: RouteQuery;
   className?: string;
   activeClassName?: string;
   inactiveClassName?: string;
-} & Exclude<AnchorHTMLAttributes<HTMLAnchorElement>, "href">;
+}
 
 export function Link<Params extends RouteParams>({
   to,
