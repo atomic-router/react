@@ -40,6 +40,8 @@
   "scripts": {
     "test": "jest -i",
     "test:watch": "jest --watch -i",
+    "lint": "prettier --check \"{src,test}/**/*.{ts,tsx,js,jsx,md}\"",
+    "format": "prettier --write \"{src,test}/**/*.{ts,tsx,js,jsx,md}\"",
     "build": "rollup -c",
     "prepare": "yarn build"
   },
