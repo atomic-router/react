@@ -1,0 +1,42 @@
+name: SizeCompare CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+  workflow_dispatch:
+
+jobs:
+  size-compare:
+
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+
+      - name: Use Node 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: 'pnpm'
+
+      - name: Install deps
+        run: pnpm install
+
+      - name: Build
+        run: pnpm build
+
+      - name: 🚛 Size compare
+        uses: effector/size-compare@v1.0.0
+        with:
+          gist_id: "2e740c4a454b2bbd91b9ce33dc33abc7"
+          gist_token: "${{ secrets.SIZE_COMPARE_TOKEN }}"
+          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          files: |
+            dist/*.js
