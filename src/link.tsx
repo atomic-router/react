@@ -1,11 +1,11 @@
-import React, { AnchorHTMLAttributes, ForwardedRef, forwardRef } from "react";
 import clsx from "clsx";
 import { useStore, useEvent } from "effector-react";
 import { buildPath, RouteParams, RouteQuery, RouteInstance } from "atomic-router";
+import React, { AnchorHTMLAttributes, ForwardedRef, forwardRef } from "react";
 
 import { useRouter } from "./router-provider";
 
-type Props<Params extends RouteParams> = {
+export type LinkProps<Params extends RouteParams> = {
   to: RouteInstance<Params> | string;
   params?: Params;
   query?: RouteQuery;
@@ -15,7 +15,7 @@ type Props<Params extends RouteParams> = {
 } & Exclude<AnchorHTMLAttributes<HTMLAnchorElement>, "href">;
 
 const LinkView = <Params extends RouteParams>(
-  props: Props<Params>,
+  props: LinkProps<Params>,
   ref: ForwardedRef<HTMLAnchorElement>
 ) => {
   const { to, params, query, activeClassName, inactiveClassName, ...linkProps } = props;
@@ -35,7 +35,7 @@ const NormalLink = forwardRef<HTMLAnchorElement, AnchorHTMLAttributes<HTMLAnchor
 );
 
 const RouteLinkView = <Params extends RouteParams>(
-  props: Exclude<Props<Params>, "to"> & { to: RouteInstance<Params> },
+  props: Exclude<LinkProps<Params>, "to"> & { to: RouteInstance<Params> },
   ref: ForwardedRef<HTMLAnchorElement>
 ) => {
   const {
@@ -91,5 +91,5 @@ const RouteLinkView = <Params extends RouteParams>(
 const RouteLink = forwardRef(RouteLinkView);
 
 export const Link = forwardRef(LinkView) as <Params extends RouteParams>(
-  props: Props<Params> & { ref?: ForwardedRef<HTMLAnchorElement> }
+  props: LinkProps<Params> & { ref?: ForwardedRef<HTMLAnchorElement> }
 ) => ReturnType<typeof LinkView>;
