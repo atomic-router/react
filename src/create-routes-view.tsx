@@ -1,20 +1,20 @@
-import { RouteInstance } from "atomic-router";
 import React, { FC, ReactNode } from "react";
+import { RouteInstance, RouteParams } from "atomic-router";
 
 import { useIsOpened } from "./use-is-opened";
 
-type RouteRecord<Props, Params> = {
+interface RouteRecord<Props, Params extends RouteParams> {
   route: RouteInstance<Params> | RouteInstance<Params>[];
   view: React.ComponentType<Props>;
   layout?: FC<{ children: ReactNode }>;
-};
+}
 
-export type RoutesViewConfig = {
+export interface RoutesViewConfig {
   routes: RouteRecord<any, any>[];
   otherwise?: React.ComponentType<any>;
-};
+}
 
-export const createRoutesView = <Config extends RoutesViewConfig>(config: Config) => {
+export function createRoutesView<Config extends RoutesViewConfig>(config: Config) {
   return (props: Omit<Config, keyof Config>) => {
     const mergedConfig = { ...config, ...props };
     const routes = mergedConfig.routes.map((routeRecord) => {
@@ -47,4 +47,4 @@ export const createRoutesView = <Config extends RoutesViewConfig>(config: Config
 
     return null;
   };
-};
+}

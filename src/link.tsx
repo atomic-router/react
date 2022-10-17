@@ -12,7 +12,7 @@ export type LinkProps<Params extends RouteParams> = {
   className?: string;
   activeClassName?: string;
   inactiveClassName?: string;
-} & Exclude<AnchorHTMLAttributes<HTMLAnchorElement>, "href">;
+} & AnchorHTMLAttributes<HTMLAnchorElement>;
 
 const LinkView = <Params extends RouteParams>(
   props: LinkProps<Params>,

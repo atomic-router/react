@@ -18,12 +18,14 @@
     ".": {
       "import": "./dist/atomic-router.esm.js",
       "require": "./dist/atomic-router.cjs.js",
+      "node": "./dist/atomic-router.cjs.js",
       "default": "./dist/atomic-router.esm.js"
     },
     "./package.json": "./package.json",
     "./scope": {
       "import": "./dist/scope/atomic-router.esm.js",
       "require": "./dist/scope/atomic-router.cjs.js",
+      "node": "./dist/scope/atomic-router.cjs.js",
       "default": "./dist/scope/atomic-router.esm.js"
     }
   },
@@ -38,6 +40,8 @@
   "scripts": {
     "test": "jest -i",
     "test:watch": "jest --watch -i",
+    "lint": "prettier --check \"{src,test}/**/*.{ts,tsx,js,jsx,md}\"",
+    "format": "prettier --write \"{src,test}/**/*.{ts,tsx,js,jsx,md}\"",
     "build": "rollup -c",
     "prepare": "yarn build",
     "dev": "cd ./playground && vite"
@@ -85,5 +89,6 @@
     "tslib": "^2.4.0",
     "typescript": "^4.6.3",
     "vite": "^3.1.8"
-  }
+  },
+  "packageManager": "pnpm@7.9.3"
 }
