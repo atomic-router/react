@@ -1,4 +1,5 @@
 import { buildPath, RouteInstance, RouteParams, RouteQuery } from "atomic-router";
+
 import { useRouter } from "./router-provider";
 
 export function useLink<Params extends RouteParams>(

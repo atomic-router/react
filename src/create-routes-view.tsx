@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC, ReactNode } from "react";
 import { RouteInstance, RouteParams } from "atomic-router";
 
 import { useIsOpened } from "./use-is-opened";
@@ -6,6 +6,7 @@ import { useIsOpened } from "./use-is-opened";
 interface RouteRecord<Props, Params extends RouteParams> {
   route: RouteInstance<Params> | RouteInstance<Params>[];
   view: React.ComponentType<Props>;
+  layout?: FC<{ children: ReactNode }>;
 }
 
 export interface RoutesViewConfig {
@@ -24,6 +25,15 @@ export function createRoutesView<Config extends RoutesViewConfig>(config: Config
     for (const route of routes) {
       if (route.isOpened) {
         const View = route.view;
+
+        if (route.layout) {
+          const Layout = route.layout;
+          return (
+            <Layout>
+              <View />
+            </Layout>
+          );
+        }
 
         return <View />;
       }

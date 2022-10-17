@@ -43,7 +43,8 @@
     "lint": "prettier --check \"{src,test}/**/*.{ts,tsx,js,jsx,md}\"",
     "format": "prettier --write \"{src,test}/**/*.{ts,tsx,js,jsx,md}\"",
     "build": "rollup -c",
-    "prepare": "yarn build"
+    "prepare": "yarn build",
+    "dev": "cd ./playground && vite"
   },
   "dependencies": {
     "clsx": "^1.1.1"
@@ -71,6 +72,7 @@
     "@testing-library/react": "^13.3.0",
     "@types/jest": "^28.1.6",
     "@types/react": "^17 || ^18",
+    "@vitejs/plugin-react": "^2.1.0",
     "atomic-router": "^0.6.1",
     "effector": "^22.3.0",
     "effector-react": "^22.1.6",
@@ -85,7 +87,8 @@
     "rollup-plugin-terser": "^7.0.2",
     "ts-jest": "^28.0.1",
     "tslib": "^2.4.0",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.3",
+    "vite": "^3.1.8"
   },
   "packageManager": "pnpm@7.9.3"
 }

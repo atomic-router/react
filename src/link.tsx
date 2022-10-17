@@ -1,77 +1,62 @@
-import React, { AnchorHTMLAttributes } from "react";
 import clsx from "clsx";
-import { useEvent, useStore } from "effector-react";
-import { buildPath, RouteInstance, RouteParams, RouteQuery } from "atomic-router";
+import { useStore, useEvent } from "effector-react";
+import { buildPath, RouteParams, RouteQuery, RouteInstance } from "atomic-router";
+import React, { AnchorHTMLAttributes, ForwardedRef, forwardRef } from "react";
 
 import { useRouter } from "./router-provider";
 
-interface Props<Params extends RouteParams>
-  extends Exclude<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> {
+export type LinkProps<Params extends RouteParams> = {
   to: RouteInstance<Params> | string;
   params?: Params;
   query?: RouteQuery;
   className?: string;
   activeClassName?: string;
   inactiveClassName?: string;
-}
+} & AnchorHTMLAttributes<HTMLAnchorElement>;
 
-export function Link<Params extends RouteParams>({
-  to,
-  params,
-  query,
-  className,
-  activeClassName = "active",
-  inactiveClassName,
-  ...props
-}: Props<Params>) {
-  if (typeof to === "string") {
-    return <NormalLink href={to} className={className} {...props} />;
+const LinkView = <Params extends RouteParams>(
+  props: LinkProps<Params>,
+  ref: ForwardedRef<HTMLAnchorElement>
+) => {
+  const { to, params, query, activeClassName, inactiveClassName, ...linkProps } = props;
+  if (typeof props.to === "string") {
+    return (
+      <NormalLink ref={ref} href={props.to} {...linkProps} className={clsx(props.className)} />
+    );
   }
-  return (
-    <RouteLink
-      {...{
-        to,
-        params,
-        query,
-        className,
-        activeClassName,
-        inactiveClassName,
-      }}
-      {...props}
-    />
-  );
-}
+  // @ts-expect-error
+  return <RouteLink ref={ref} {...props} />;
+};
 
-function NormalLink({
-  className,
-  ...props
-}: { className?: string } & AnchorHTMLAttributes<HTMLAnchorElement>) {
-  return <a className={clsx(className)} {...props} />;
-}
+const NormalLink = forwardRef<HTMLAnchorElement, AnchorHTMLAttributes<HTMLAnchorElement>>(
+  (props, ref) => {
+    return <a ref={ref} className={props.className} {...props} />;
+  }
+);
 
-function RouteLink<Params extends RouteParams>({
-  to,
-  params,
-  query,
-  className,
-  activeClassName = "active",
-  inactiveClassName,
-  onClick,
-  ...props
-}: {
-  to: RouteInstance<Params>;
-  params?: Params;
-  query?: RouteQuery;
-  className?: string;
-  activeClassName?: string;
-  inactiveClassName?: string;
-} & AnchorHTMLAttributes<HTMLAnchorElement>) {
+const RouteLinkView = <Params extends RouteParams>(
+  props: Exclude<LinkProps<Params>, "to"> & { to: RouteInstance<Params> },
+  ref: ForwardedRef<HTMLAnchorElement>
+) => {
+  const {
+    to,
+    params,
+    query,
+    className,
+    activeClassName,
+    inactiveClassName,
+    onClick,
+    children,
+    ...linkProps
+  } = props;
+
   const router = useRouter();
   const routeObj = router.routes.find((routeObj) => routeObj.route === to);
 
   if (!routeObj) {
     throw new Error("[RouteLink] Route not found");
   }
+
   const isOpened = useStore(routeObj.route.$isOpened);
   const navigate = useEvent(to.navigate);
 
@@ -83,7 +68,9 @@ function RouteLink<Params extends RouteParams>({
 
   return (
     <a
+      ref={ref}
       href={href}
+      {...linkProps}
       className={clsx(className, isOpened ? activeClassName : inactiveClassName)}
       onClick={(evt) => {
         evt.preventDefault();
@@ -95,9 +82,14 @@ function RouteLink<Params extends RouteParams>({
           onClick(evt);
         }
       }}
-      {...props}
     >
-      {props.children}
+      {children}
     </a>
   );
-}
+};
+
+const RouteLink = forwardRef(RouteLinkView);
+
+export const Link = forwardRef(LinkView) as <Params extends RouteParams>(
+  props: LinkProps<Params> & { ref?: ForwardedRef<HTMLAnchorElement> }
+) => ReturnType<typeof LinkView>;
