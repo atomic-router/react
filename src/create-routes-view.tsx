@@ -3,7 +3,7 @@ import { RouteInstance, RouteParams } from "atomic-router";
 
 import { useIsOpened } from "./use-is-opened";
 
-interface RouteRecord<Props, Params extends RouteParams> {
+export interface RouteRecord<Props, Params extends RouteParams> {
   route: RouteInstance<Params> | RouteInstance<Params>[];
   view: React.ComponentType<Props>;
   layout?: FC<{ children: ReactNode }>;
