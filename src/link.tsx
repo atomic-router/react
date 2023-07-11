@@ -73,14 +73,20 @@ const RouteLinkView = <Params extends RouteParams>(
       {...linkProps}
       className={clsx(className, isOpened ? activeClassName : inactiveClassName)}
       onClick={(evt) => {
+        if (onClick) {
+          onClick(evt);
+        }
+
+        // allow user to prevent navigation
+        if (evt.defaultPrevented) {
+          return
+        }
+
         evt.preventDefault();
         navigate({
           params: params || ({} as Params),
           query: query || {},
         });
-        if (onClick) {
-          onClick(evt);
-        }
       }}
     >
       {children}
