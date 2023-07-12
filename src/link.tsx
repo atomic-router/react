@@ -82,6 +82,11 @@ const RouteLinkView = <Params extends RouteParams>(
           return
         }
 
+        // skip modified events (like cmd + click to open the link in new tab)
+        if (evt.metaKey || evt.altKey || evt.ctrlKey || evt.shiftKey) {
+          return
+        }
+
         evt.preventDefault();
         navigate({
           params: params || ({} as Params),
