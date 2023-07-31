@@ -47,6 +47,7 @@ const RouteLinkView = <Params extends RouteParams>(
     inactiveClassName,
     onClick,
     children,
+    target,
     ...linkProps
   } = props;
 
@@ -72,6 +73,7 @@ const RouteLinkView = <Params extends RouteParams>(
       href={href}
       {...linkProps}
       className={clsx(className, isOpened ? activeClassName : inactiveClassName)}
+      target={target}
       onClick={(evt) => {
         if (onClick) {
           onClick(evt);
@@ -79,6 +81,16 @@ const RouteLinkView = <Params extends RouteParams>(
 
         // allow user to prevent navigation
         if (evt.defaultPrevented) {
+          return
+        }
+
+        // let browser handle "_blank" target and etc
+        if (target && target !== '_self') {
+          return
+        }
+
+        // skip modified events (like cmd + click to open the link in new tab)
+        if (evt.metaKey || evt.altKey || evt.ctrlKey || evt.shiftKey) {
           return
         }
 
