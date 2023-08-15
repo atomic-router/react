@@ -11,11 +11,8 @@ export interface RouteViewConfig<Props, Params extends RouteParams> {
 
 export function createRouteView<
   Props,
-  Params extends RouteParams,
-  Config extends {
-    [key in keyof RouteViewConfig<Props, Params>]?: RouteViewConfig<Props, Params>[key];
-  }
->(config: Config) {
+  Params extends RouteParams
+>(config: RouteViewConfig<Props, Params>) {
   return (props: Props & Omit<RouteViewConfig<Props, Params>, keyof Config>) => {
     const mergedConfig = { ...config, ...props } as RouteViewConfig<Props, Params>;
     const isOpened = useIsOpened(mergedConfig.route);
