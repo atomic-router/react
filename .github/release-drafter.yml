@@ -1,48 +1,48 @@
 categories:
-  - title: '⚠️ Breaking changes'
-    label: 'BREAKING CHANGES'
+  - title: "⚠️ Breaking changes"
+    label: "BREAKING CHANGES"
 
-  - title: '🚀 Features'
+  - title: "🚀 Features"
     labels:
-      - 'feature'
-      - 'enhancement'
+      - "feature"
+      - "enhancement"
 
-  - title: '🐛 Bug Fixes'
+  - title: "🐛 Bug Fixes"
     labels:
-      - 'fix'
-      - 'bugfix'
-      - 'bug'
+      - "fix"
+      - "bugfix"
+      - "bug"
 
-  - title: '🧰 Maintenance'
+  - title: "🧰 Maintenance"
     labels:
-      - 'chore'
-      - 'dependencies'
+      - "chore"
+      - "dependencies"
 
-  - title: '📚 Documentation'
-    label: 'documentation'
+  - title: "📚 Documentation"
+    label: "documentation"
 
-  - title: '🧪 Tests'
-    label: 'tests'
+  - title: "🧪 Tests"
+    label: "tests"
 
-  - title: '🏎 Optimizations'
-    label: 'optimizations'
+  - title: "🏎 Optimizations"
+    label: "optimizations"
 
 version-resolver:
   major:
     labels:
-      - 'BREAKING CHANGES'
+      - "BREAKING CHANGES"
   minor:
     labels:
-      - 'feature'
-      - 'enhancement'
+      - "feature"
+      - "enhancement"
   patch:
     labels:
-      - 'fix'
+      - "fix"
   default: patch
 
-name-template: 'v$RESOLVED_VERSION'
-tag-template: 'v$RESOLVED_VERSION'
+name-template: "v$RESOLVED_VERSION"
+tag-template: "v$RESOLVED_VERSION"
 
-change-template: '- $TITLE #$NUMBER (@$AUTHOR)'
+change-template: "- $TITLE #$NUMBER (@$AUTHOR)"
 template: |
   $CHANGES
