@@ -80,17 +80,17 @@ const RouteLinkView = <Params extends RouteParams>(
 
         // allow user to prevent navigation
         if (evt.defaultPrevented) {
-          return
+          return;
         }
 
         // let browser handle "_blank" target and etc
-        if (target && target !== '_self') {
-          return
+        if (target && target !== "_self") {
+          return;
         }
 
         // skip modified events (like cmd + click to open the link in new tab)
         if (evt.metaKey || evt.altKey || evt.ctrlKey || evt.shiftKey) {
-          return
+          return;
         }
 
         evt.preventDefault();
