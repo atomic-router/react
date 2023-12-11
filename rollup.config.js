@@ -111,7 +111,7 @@ export default [
       {
         file: pkg.types.replace(".d.ts", ".d.mts"),
         format: "es",
-      }
+      },
     ],
     plugins: [resolverPlugin, dts()],
   },
