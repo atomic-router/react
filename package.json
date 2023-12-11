@@ -9,6 +9,10 @@
     "type": "git",
     "url": "https://github.com/atomic-router/react"
   },
+  "contributors": [
+    "Anton Kosykh",
+    "Sergey Sova <mail@sergeysova.com>"
+  ],
   "license": "MIT",
   "main": "dist/atomic-router.cjs.js",
   "module": "dist/atomic-router.esm.js",
