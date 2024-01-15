@@ -14,7 +14,7 @@ export function createRouteView<
   Params extends RouteParams,
   Config extends {
     [key in keyof RouteViewConfig<Props, Params>]?: RouteViewConfig<Props, Params>[key];
-  }
+  },
 >(config: Config) {
   return (props: Props & Omit<RouteViewConfig<Props, Params>, keyof Config>) => {
     const mergedConfig = { ...config, ...props } as RouteViewConfig<Props, Params>;

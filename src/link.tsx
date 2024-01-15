@@ -16,7 +16,7 @@ export type LinkProps<Params extends RouteParams> = {
 
 const LinkView = <Params extends RouteParams>(
   props: LinkProps<Params>,
-  ref: ForwardedRef<HTMLAnchorElement>
+  ref: ForwardedRef<HTMLAnchorElement>,
 ) => {
   const { to, params, query, activeClassName, inactiveClassName, ...linkProps } = props;
   if (typeof props.to === "string") {
@@ -31,12 +31,12 @@ const LinkView = <Params extends RouteParams>(
 const NormalLink = forwardRef<HTMLAnchorElement, AnchorHTMLAttributes<HTMLAnchorElement>>(
   (props, ref) => {
     return <a ref={ref} className={props.className} {...props} />;
-  }
+  },
 );
 
 const RouteLinkView = <Params extends RouteParams>(
   props: Exclude<LinkProps<Params>, "to"> & { to: RouteInstance<Params> },
-  ref: ForwardedRef<HTMLAnchorElement>
+  ref: ForwardedRef<HTMLAnchorElement>,
 ) => {
   const {
     to,
@@ -108,5 +108,5 @@ const RouteLinkView = <Params extends RouteParams>(
 const RouteLink = forwardRef(RouteLinkView);
 
 export const Link = forwardRef(LinkView) as <Params extends RouteParams>(
-  props: LinkProps<Params> & { ref?: ForwardedRef<HTMLAnchorElement> }
+  props: LinkProps<Params> & { ref?: ForwardedRef<HTMLAnchorElement> },
 ) => ReturnType<typeof LinkView>;
