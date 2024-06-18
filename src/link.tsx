@@ -8,6 +8,7 @@ import { useRouter } from "./router-provider";
 export type LinkProps<Params extends RouteParams> = {
   to: RouteInstance<Params> | string;
   params?: Params;
+  replace?: boolean;
   query?: RouteQuery;
   className?: string;
   activeClassName?: string;
@@ -18,7 +19,7 @@ const LinkView = <Params extends RouteParams>(
   props: LinkProps<Params>,
   ref: ForwardedRef<HTMLAnchorElement>,
 ) => {
-  const { to, params, query, activeClassName, inactiveClassName, ...linkProps } = props;
+  const { to, params, query, activeClassName, inactiveClassName, replace, ...linkProps } = props;
   if (typeof props.to === "string") {
     return (
       <NormalLink ref={ref} href={props.to} {...linkProps} className={clsx(props.className)} />
@@ -48,6 +49,7 @@ const RouteLinkView = <Params extends RouteParams>(
     onClick,
     children,
     target,
+    replace,
     ...linkProps
   } = props;
 
@@ -97,6 +99,7 @@ const RouteLinkView = <Params extends RouteParams>(
         navigate({
           params: params || ({} as Params),
           query: query || {},
+          replace,
         });
       }}
     >
