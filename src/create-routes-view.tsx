@@ -11,7 +11,7 @@ export interface RouteRecord<Props, Params extends RouteParams> {
 
 export interface RoutesViewConfig {
   routes: RouteRecord<any, any>[];
-  otherwise?: React.ComponentType<any>;
+  otherwise?: React.ComponentType<any> | Omit<RouteRecord<any, any>, 'route'>;
 }
 
 export function createRoutesView<Config extends RoutesViewConfig>(config: Config) {
@@ -29,9 +29,9 @@ export function createRoutesView<Config extends RoutesViewConfig>(config: Config
         if (route.layout) {
           const Layout = route.layout;
           return (
-            <Layout>
-              <View />
-            </Layout>
+              <Layout>
+                <View />
+              </Layout>
           );
         }
 
@@ -40,11 +40,28 @@ export function createRoutesView<Config extends RoutesViewConfig>(config: Config
     }
 
     if (mergedConfig.otherwise) {
-      const Otherwise = mergedConfig.otherwise;
+      const otherwise = mergedConfig.otherwise;
+      if (isComponent(otherwise)) {
+        const Otherwise = otherwise;
+        return <Otherwise />;
+      }
 
-      return <Otherwise />;
+      const View = otherwise.view;
+      if (otherwise.layout) {
+        const Layout = otherwise.layout;
+        return (
+            <Layout>
+              <View />
+            </Layout>
+        )
+      }
+      return <View />
     }
 
     return null;
   };
+}
+
+function isComponent(obj: unknown): obj is React.ComponentType<any> {
+  return typeof obj === 'function';
 }
