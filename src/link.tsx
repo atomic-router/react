@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useStore, useEvent } from "effector-react";
+import { useUnit } from "effector-react";
 import { buildPath, RouteParams, RouteQuery, RouteInstance } from "atomic-router";
 import React, { AnchorHTMLAttributes, ForwardedRef, forwardRef } from "react";
 
@@ -8,6 +8,7 @@ import { useRouter } from "./router-provider";
 export type LinkProps<Params extends RouteParams> = {
   to: RouteInstance<Params> | string;
   params?: Params;
+  replace?: boolean;
   query?: RouteQuery;
   className?: string;
   activeClassName?: string;
@@ -16,9 +17,9 @@ export type LinkProps<Params extends RouteParams> = {
 
 const LinkView = <Params extends RouteParams>(
   props: LinkProps<Params>,
-  ref: ForwardedRef<HTMLAnchorElement>
+  ref: ForwardedRef<HTMLAnchorElement>,
 ) => {
-  const { to, params, query, activeClassName, inactiveClassName, ...linkProps } = props;
+  const { to, params, query, activeClassName, inactiveClassName, replace, ...linkProps } = props;
   if (typeof props.to === "string") {
     return (
       <NormalLink ref={ref} href={props.to} {...linkProps} className={clsx(props.className)} />
@@ -31,12 +32,12 @@ const LinkView = <Params extends RouteParams>(
 const NormalLink = forwardRef<HTMLAnchorElement, AnchorHTMLAttributes<HTMLAnchorElement>>(
   (props, ref) => {
     return <a ref={ref} className={props.className} {...props} />;
-  }
+  },
 );
 
 const RouteLinkView = <Params extends RouteParams>(
   props: Exclude<LinkProps<Params>, "to"> & { to: RouteInstance<Params> },
-  ref: ForwardedRef<HTMLAnchorElement>
+  ref: ForwardedRef<HTMLAnchorElement>,
 ) => {
   const {
     to,
@@ -48,6 +49,7 @@ const RouteLinkView = <Params extends RouteParams>(
     onClick,
     children,
     target,
+    replace,
     ...linkProps
   } = props;
 
@@ -58,8 +60,7 @@ const RouteLinkView = <Params extends RouteParams>(
     throw new Error("[RouteLink] Route not found");
   }
 
-  const isOpened = useStore(routeObj.route.$isOpened);
-  const navigate = useEvent(to.navigate);
+  const [isOpened, navigate] = useUnit([routeObj.route.$isOpened, to.navigate]);
 
   const href = buildPath({
     pathCreator: routeObj.path,
@@ -81,23 +82,24 @@ const RouteLinkView = <Params extends RouteParams>(
 
         // allow user to prevent navigation
         if (evt.defaultPrevented) {
-          return
+          return;
         }
 
         // let browser handle "_blank" target and etc
-        if (target && target !== '_self') {
-          return
+        if (target && target !== "_self") {
+          return;
         }
 
         // skip modified events (like cmd + click to open the link in new tab)
         if (evt.metaKey || evt.altKey || evt.ctrlKey || evt.shiftKey) {
-          return
+          return;
         }
 
         evt.preventDefault();
         navigate({
           params: params || ({} as Params),
           query: query || {},
+          replace,
         });
       }}
     >
@@ -109,5 +111,5 @@ const RouteLinkView = <Params extends RouteParams>(
 const RouteLink = forwardRef(RouteLinkView);
 
 export const Link = forwardRef(LinkView) as <Params extends RouteParams>(
-  props: LinkProps<Params> & { ref?: ForwardedRef<HTMLAnchorElement> }
+  props: LinkProps<Params> & { ref?: ForwardedRef<HTMLAnchorElement> },
 ) => ReturnType<typeof LinkView>;

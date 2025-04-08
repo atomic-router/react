@@ -7,21 +7,21 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node: ['14.x', '16.x', '18.x']
+        node: ["18.x", "20.x"]
         os: [ubuntu-latest, macOS-latest]
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
 
       - name: Use Node ${{ matrix.node }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Install deps
         run: pnpm install
@@ -34,3 +34,6 @@ jobs:
 
       - name: Build
         run: pnpm build
+
+      - name: Publint
+        run: pnpm publint ./

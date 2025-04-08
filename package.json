@@ -9,26 +9,29 @@
     "type": "git",
     "url": "https://github.com/atomic-router/react"
   },
+  "contributors": [
+    "Anton Kosykh",
+    "Sergey Sova <mail@sergeysova.com>"
+  ],
   "license": "MIT",
-  "main": "dist/atomic-router.cjs.js",
-  "module": "dist/atomic-router.esm.js",
+  "main": "dist/atomic-router.js",
+  "module": "dist/atomic-router.mjs",
   "unpkg": "dist/atomic-router.umd.js",
   "types": "dist/atomic-router.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/atomic-router.d.ts",
-      "import": "./dist/atomic-router.esm.js",
-      "require": "./dist/atomic-router.cjs.js",
-      "node": "./dist/atomic-router.cjs.js",
-      "default": "./dist/atomic-router.esm.js"
+      "import": "./dist/atomic-router.mjs",
+      "require": "./dist/atomic-router.js",
+      "node": "./dist/atomic-router.js",
+      "default": "./dist/atomic-router.mjs"
     },
     "./package.json": "./package.json",
     "./scope": {
       "types": "./scope.d.ts",
-      "import": "./dist/scope/atomic-router.esm.js",
-      "require": "./dist/scope/atomic-router.cjs.js",
-      "node": "./dist/scope/atomic-router.cjs.js",
-      "default": "./dist/scope/atomic-router.esm.js"
+      "import": "./dist/scope/atomic-router.mjs",
+      "require": "./dist/scope/atomic-router.js",
+      "node": "./dist/scope/atomic-router.js",
+      "default": "./dist/scope/atomic-router.mjs"
     }
   },
   "files": [
@@ -37,7 +40,7 @@
     "scope.js"
   ],
   "engines": {
-    "node": ">=10"
+    "node": ">=14"
   },
   "scripts": {
     "test": "jest -i",
@@ -52,45 +55,46 @@
     "clsx": "^1.1.1"
   },
   "peerDependencies": {
-    "atomic-router": "^0.8.0",
-    "effector": "^22",
-    "effector-react": "^22",
+    "atomic-router": "^0.10.0",
+    "effector": "^22.8.8 || ^23",
+    "effector-react": "^22.1.0 || ^23",
     "react": "^17 || ^18"
   },
   "devDependencies": {
-    "@babel/cli": "^7.18.10",
-    "@babel/core": "^7.18.10",
-    "@babel/plugin-proposal-class-properties": "^7.18.6",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
-    "@babel/plugin-proposal-object-rest-spread": "^7.18.9",
-    "@babel/plugin-proposal-optional-chaining": "^7.18.9",
-    "@babel/preset-env": "^7.18.10",
-    "@babel/preset-react": "^7.18.6",
-    "@babel/preset-typescript": "^7.18.6",
-    "@rollup/plugin-babel": "^5.3.1",
-    "@rollup/plugin-commonjs": "^22.0.2",
-    "@rollup/plugin-node-resolve": "^13.3.0",
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.3.0",
-    "@types/jest": "^28.1.6",
+    "@babel/cli": "^7.23.4",
+    "@babel/core": "^7.23.7",
+    "@babel/plugin-transform-class-properties": "^7.18.6",
+    "@babel/plugin-transform-nullish-coalescing-operator": "^7.18.6",
+    "@babel/plugin-transform-object-rest-spread": "^7.18.9",
+    "@babel/plugin-transform-optional-chaining": "^7.18.9",
+    "@babel/preset-env": "^7.23.8",
+    "@babel/preset-react": "^7.23.3",
+    "@babel/preset-typescript": "^7.23.3",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@testing-library/jest-dom": "^6.2.0",
+    "@testing-library/react": "^14.1.2",
+    "@types/jest": "^29.5.11",
     "@types/react": "^17 || ^18",
-    "@vitejs/plugin-react": "^2.1.0",
-    "atomic-router": "^0.6.1",
-    "effector": "^22.3.0",
-    "effector-react": "^22.1.6",
+    "@vitejs/plugin-react": "^4.2.1",
+    "atomic-router": "^0.11.0",
+    "effector": "^23.3.0",
+    "effector-react": "^23.3.0",
     "history": "^5.3.0",
-    "jest": "^28.1.0",
-    "jest-environment-jsdom": "^28.1.3",
-    "prettier": "^2.7.1",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "prettier": "^3.2.2",
+    "publint": "^0.2.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rollup": "^2.77.2",
-    "rollup-plugin-dts": "^4.2.2",
-    "rollup-plugin-terser": "^7.0.2",
-    "ts-jest": "^28.0.1",
-    "tslib": "^2.4.0",
-    "typescript": "^4.6.3",
-    "vite": "^3.1.8"
+    "rollup": "^4.9.5",
+    "rollup-plugin-dts": "^6.1.0",
+    "ts-jest": "^29.1.1",
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.11"
   },
-  "packageManager": "pnpm@7.9.3"
+  "packageManager": "pnpm@8.11.0"
 }
