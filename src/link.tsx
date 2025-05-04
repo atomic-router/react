@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { useUnit } from "effector-react";
 import { buildPath, RouteParams, RouteQuery, RouteInstance } from "atomic-router";
-import React, { AnchorHTMLAttributes, ForwardedRef, forwardRef } from "react";
+import { AnchorHTMLAttributes, ForwardedRef, forwardRef } from "react";
 
 import { useRouter } from "./router-provider";
 

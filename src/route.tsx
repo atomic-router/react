@@ -1,4 +1,3 @@
-import React from "react";
 import { RouteInstance, RouteParams } from "atomic-router";
 
 import { useIsOpened } from "./use-is-opened";

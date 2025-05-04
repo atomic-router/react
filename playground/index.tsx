@@ -1,9 +1,9 @@
-import { createRoot } from "react-dom/client";
-import { useEffect, useRef, useState } from "react";
+import { createHistoryRouter, createRoute } from "atomic-router";
 import { createBrowserHistory } from "history";
-import { createRoute, createHistoryRouter } from "atomic-router";
+import React, { useEffect, useRef } from "react";
+import { createRoot } from "react-dom/client";
 
-import { Link, createRoutesView, RouterProvider } from "../src";
+import { Link, RouterProvider, createRoutesView } from "../src";
 
 const foo = createRoute();
 const bar = createRoute();
@@ -32,9 +32,9 @@ const Bar = ({ children }) => {
 };
 
 const routes = [
-  { path: "/", route: foo, layout: Foo },
-  { path: "/bar", route: bar, layout: Bar },
-  { path: "/bar-baz", route: barBaz, layout: Bar },
+  { path: "/", route: foo },
+  { path: "/bar", route: bar },
+  { path: "/bar-baz", route: barBaz },
 ];
 
 const router = createHistoryRouter({

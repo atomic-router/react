@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import { RouteInstance, RouteParams } from "atomic-router";
 
 import { useIsOpened } from "./use-is-opened";

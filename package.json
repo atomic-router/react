@@ -58,7 +58,7 @@
     "atomic-router": "^0.10.0",
     "effector": "^22.8.8 || ^23",
     "effector-react": "^22.1.0 || ^23",
-    "react": "^17 || ^18"
+    "react": "^17 || ^18 || ^19"
   },
   "devDependencies": {
     "@babel/cli": "^7.23.4",
