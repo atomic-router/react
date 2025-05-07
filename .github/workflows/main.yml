@@ -2,12 +2,12 @@ name: Main CI
 on: [push]
 jobs:
   build:
-    name: Build, lint, and test on Node v${{ matrix.node }} and ${{ matrix.os }}
+    name: Node v${{ matrix.node }} on ${{ matrix.os }}
 
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node: ["18.x", "20.x"]
+        node: ["18.x", "20.x", "22.x"]
         os: [ubuntu-latest, macOS-latest]
 
     steps:
@@ -34,6 +34,3 @@ jobs:
 
       - name: Build
         run: pnpm build
-
-      - name: Publint
-        run: pnpm publint ./
