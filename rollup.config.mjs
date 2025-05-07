@@ -20,54 +20,40 @@ const babelPlugin = babel({
   exclude: /node_modules.*/,
 });
 
-const babelPluginScope = babel({
-  babelHelpers: "bundled",
-  sourceMaps: true,
-  extensions,
-  exclude: /node_modules.*/,
-  overrides: [
-    {
-      test: () => true,
-      plugins: [["effector/babel-plugin", { reactSsr: true, noDefaults: true }, "scoped"]],
-    },
-  ],
-});
-
 const createTerser = ({ inline }) =>
   terser(
     minifyConfig({
       beautify: Boolean(process.env.BUILD_PRETTY),
       inline,
-    })
+    }),
   );
 
 const input = "src/index.tsx";
 const external = [
   ...Object.keys(pkg.devDependencies),
   ...Object.keys(pkg.peerDependencies),
-  "effector-react/scope",
   "react/jsx-runtime",
 ];
 
-function createConfigs({ scope }) {
+function createConfigs() {
   return [
     {
       input,
       external,
       output: [
         {
-          file: scope ? pkg.exports["./scope"].require : pkg.exports["."].require,
+          file: pkg.exports["."].require,
           format: "cjs",
           sourcemap: true,
         },
         {
-          file: scope ? pkg.exports["./scope"].import : pkg.exports["."].import,
+          file: pkg.exports["."].import,
           format: "es",
           sourcemap: true,
         },
       ],
       plugins: [
-        scope ? babelPluginScope : babelPlugin,
+        babelPlugin,
         resolverPlugin,
         commonjs(),
         // createTerser({ inline: true }),
@@ -100,8 +86,7 @@ export default [
       // createTerser({ inline: false }),
     ],
   },
-  ...createConfigs({ scope: false }),
-  ...createConfigs({ scope: true }),
+  ...createConfigs(),
   {
     input,
     external,

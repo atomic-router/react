@@ -20,24 +20,21 @@
   "types": "dist/atomic-router.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/atomic-router.mjs",
-      "require": "./dist/atomic-router.js",
+      "import": {
+        "types": "./dist/atomic-router.d.mts",
+        "default": "./dist/atomic-router.mjs"
+      },
+      "require": {
+        "types": "./dist/atomic-router.d.ts",
+        "default": "./dist/atomic-router.js"
+      },
       "node": "./dist/atomic-router.js",
       "default": "./dist/atomic-router.mjs"
     },
-    "./package.json": "./package.json",
-    "./scope": {
-      "types": "./scope.d.ts",
-      "import": "./dist/scope/atomic-router.mjs",
-      "require": "./dist/scope/atomic-router.js",
-      "node": "./dist/scope/atomic-router.js",
-      "default": "./dist/scope/atomic-router.mjs"
-    }
+    "./package.json": "./package.json"
   },
   "files": [
-    "dist",
-    "scope.d.ts",
-    "scope.js"
+    "dist"
   ],
   "engines": {
     "node": ">=14"
