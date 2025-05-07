@@ -11,6 +11,9 @@ export default defineConfig({
     }),
   ],
   test: {
+    // It is required for auto cleanup to work
+    // https://testing-library.com/docs/react-testing-library/setup#auto-cleanup-in-vitest
+    globals: true,
     environment: "jsdom",
     setupFiles: ["./test/setup.ts"],
   },
