@@ -1,14 +1,17 @@
 import { defineConfig } from "vitest/config";
-import babel from "@rollup/plugin-babel";
+import react from "@vitejs/plugin-react";
 
-const extensions = [".ts", ".tsx", ".js"];
-const babelPlugin = babel({
-  babelHelpers: "bundled",
-  sourceMaps: true,
-  extensions,
-  exclude: /node_modules.*/,
-});
-
+// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [babelPlugin],
+  plugins: [
+    react({
+      babel: {
+        exclude: /node_modules.*/,
+      },
+    }),
+  ],
+  test: {
+    environment: "jsdom",
+    setupFiles: ["./test/setup.ts"],
+  },
 });
