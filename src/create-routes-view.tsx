@@ -1,17 +1,17 @@
 import type { RouteInstance, RouteParams } from "atomic-router";
-import React, { type FC, type ReactNode } from "react";
+import type { ComponentType, FC, ReactNode } from "react";
 
 import { useIsOpened } from "./use-is-opened";
 
 export interface RouteRecord<Props, Params extends RouteParams> {
   route: RouteInstance<Params> | RouteInstance<Params>[];
-  view: React.ComponentType<Props>;
+  view: ComponentType<Props>;
   layout?: FC<{ children: ReactNode }>;
 }
 
 export interface RoutesViewConfig {
   routes: RouteRecord<any, any>[];
-  otherwise?: React.ComponentType<any>;
+  otherwise?: ComponentType<any>;
 }
 
 export function createRoutesView<Config extends RoutesViewConfig>(config: Config) {

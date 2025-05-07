@@ -1,5 +1,5 @@
 import type { HistoryRouter } from "atomic-router";
-import React, { type ReactNode, createContext, useContext } from "react";
+import { type ReactNode, createContext, useContext } from "react";
 
 export const RouterContext = createContext<HistoryRouter | null>(null);
 

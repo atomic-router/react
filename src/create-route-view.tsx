@@ -1,5 +1,5 @@
 import type { RouteInstance, RouteParams } from "atomic-router";
-import React, { type ComponentType } from "react";
+import { type ComponentType } from "react";
 
 import { useIsOpened } from "./use-is-opened";
 
