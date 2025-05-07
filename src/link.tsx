@@ -1,7 +1,7 @@
+import { type RouteInstance, type RouteParams, type RouteQuery, buildPath } from "atomic-router";
 import clsx from "clsx";
 import { useUnit } from "effector-react";
-import { buildPath, RouteParams, RouteQuery, RouteInstance } from "atomic-router";
-import React, { AnchorHTMLAttributes, ForwardedRef, forwardRef } from "react";
+import React, { type AnchorHTMLAttributes, type ForwardedRef, forwardRef } from "react";
 
 import { useRouter } from "./router-provider";
 

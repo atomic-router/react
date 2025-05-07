@@ -7,29 +7,27 @@
   "author": "Anton Kosykh",
   "repository": {
     "type": "git",
-    "url": "https://github.com/atomic-router/react"
+    "url": "git+https://github.com/atomic-router/react.git"
   },
   "contributors": [
     "Anton Kosykh",
     "Sergey Sova <mail@sergeysova.com>"
   ],
   "license": "MIT",
-  "main": "dist/atomic-router.js",
-  "module": "dist/atomic-router.mjs",
-  "unpkg": "dist/atomic-router.umd.js",
-  "types": "dist/atomic-router.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/atomic-router.d.mts",
-        "default": "./dist/atomic-router.mjs"
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
       },
       "require": {
-        "types": "./dist/atomic-router.d.ts",
-        "default": "./dist/atomic-router.js"
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
       },
-      "node": "./dist/atomic-router.js",
-      "default": "./dist/atomic-router.mjs"
+      "default": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -37,7 +35,7 @@
     "dist"
   ],
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   },
   "scripts": {
     "test": "tsc --noEmit && vitest run && publint ./",
@@ -46,18 +44,18 @@
     "test:watch": "vitest --watch",
     "lint": "prettier --check \"{src,test}/**/*.{ts,tsx,js,jsx,md}\"",
     "format": "prettier --write \"{src,test}/**/*.{ts,tsx,js,jsx,md}\"",
-    "build": "rollup -c",
+    "build": "tsup",
     "prepare": "pnpm build",
     "dev": "cd ./playground && vite"
   },
   "dependencies": {
-    "clsx": "^1.1.1"
+    "clsx": "^2.1.1"
   },
   "peerDependencies": {
-    "atomic-router": "^0.11.0",
+    "atomic-router": "^0.12.0",
     "effector": "^22.8.8 || ^23",
     "effector-react": "^22.1.0 || ^23",
-    "react": "^17 || ^18"
+    "react": "^17 || ^18 || ^19"
   },
   "devDependencies": {
     "@babel/cli": "^7.23.4",
@@ -69,28 +67,24 @@
     "@babel/preset-env": "^7.23.8",
     "@babel/preset-react": "^7.23.3",
     "@babel/preset-typescript": "^7.23.3",
-    "@rollup/plugin-babel": "^6.0.4",
-    "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-terser": "^0.4.4",
     "@testing-library/jest-dom": "^6.2.0",
-    "@testing-library/react": "^14.1.2",
+    "@testing-library/react": "^16.3.0",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/jest": "^29.5.11",
     "@types/react": "^17 || ^18",
     "@vitejs/plugin-react": "^4.2.1",
-    "atomic-router": "^0.11.0",
+    "atomic-router": "^0.12.0",
     "effector": "^23.3.0",
     "effector-react": "^23.3.0",
     "history": "^5.3.0",
     "jsdom": "^26.1.0",
-    "prettier": "^3.2.2",
+    "prettier": "^3.5.3",
     "publint": "^0.3.12",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rollup": "^4.9.5",
-    "rollup-plugin-dts": "^6.1.0",
     "tslib": "^2.6.2",
-    "typescript": "^5.3.3",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.3",
     "vite": "^6.3.5",
     "vitest": "^3.1.3"
   },

@@ -1,14 +1,23 @@
-import { createHistoryRouter } from "atomic-router";
-import React, { createContext, ReactNode, useContext } from "react";
+import type { HistoryRouter } from "atomic-router";
+import React, { type ReactNode, createContext, useContext } from "react";
 
-type Router = ReturnType<typeof createHistoryRouter>;
+export const RouterContext = createContext<HistoryRouter | null>(null);
 
-export const RouterContext = createContext<Router | null>(null);
+export interface RouterProviderProps {
+  router: HistoryRouter;
+  children: ReactNode;
+}
 
-export function RouterProvider({ router, children }: { router: Router; children: ReactNode }) {
+export function RouterProvider({ router, children }: RouterProviderProps) {
   return <RouterContext.Provider value={router}>{children}</RouterContext.Provider>;
 }
 
-export function useRouter() {
-  return useContext(RouterContext) as Router;
+export function useRouter(): HistoryRouter {
+  const router = useContext(RouterContext);
+
+  if (!router) {
+    throw new Error("[Atomic-Router-React] useRouter must be used within a RouterProvider");
+  }
+
+  return router;
 }

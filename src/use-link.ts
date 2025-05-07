@@ -1,4 +1,4 @@
-import { buildPath, RouteInstance, RouteParams, RouteQuery } from "atomic-router";
+import { type RouteInstance, type RouteParams, type RouteQuery, buildPath } from "atomic-router";
 
 import { useRouter } from "./router-provider";
 
@@ -11,7 +11,9 @@ export function useLink<Params extends RouteParams>(
   const routeObj = router.routes.find((routeObj) => routeObj.route === route);
 
   if (!routeObj) {
-    throw new Error(`[useLink] Route not found. Maybe it is not passed into createHistoryRouter`);
+    throw new Error(
+      `[Atomic-Router-React] useLink() Route not found. Maybe it is not passed into createHistoryRouter`,
+    );
   }
 
   return buildPath({

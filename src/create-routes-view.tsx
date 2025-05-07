@@ -1,5 +1,5 @@
-import React, { FC, ReactNode } from "react";
-import { RouteInstance, RouteParams } from "atomic-router";
+import type { RouteInstance, RouteParams } from "atomic-router";
+import React, { type FC, type ReactNode } from "react";
 
 import { useIsOpened } from "./use-is-opened";
 

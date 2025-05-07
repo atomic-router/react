@@ -1,14 +1,14 @@
+import type { RouteInstance, RouteParams } from "atomic-router";
 import React from "react";
-import { RouteInstance, RouteParams } from "atomic-router";
 
 import { useIsOpened } from "./use-is-opened";
 
-interface Props<Params extends RouteParams> {
+export interface RouteProps<Params extends RouteParams> {
   route: RouteInstance<Params> | RouteInstance<Params>[];
   view: React.ComponentType;
 }
 
-export function Route<Params extends RouteParams>({ route, view: Component }: Props<Params>) {
+export function Route<Params extends RouteParams>({ route, view: Component }: RouteProps<Params>) {
   const isOpened = useIsOpened(route);
 
   if (isOpened) {
